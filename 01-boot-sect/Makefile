@@ -1,10 +1,47 @@
-all: os.img
+-include env.mk
+
+# Find GCC
+#ifndef GCCPREFIX
+GCCPREFIX := $(shell if objdump -i 2>&1 | grep 'elf64-x86-64' > /dev/null 2>&1; \
+			then echo ''; \
+\
+			else echo "---" 1>&2 ; \
+			echo "Cannot find GCC" 1>&2; \
+			echo "Please specify GCCPREFIX in env.mk" 1>&2; \
+			echo "---" 1>&2; \
+			exit 1; \
+		fi)
+
+# Find QEMU
+#ifndef QEMU
+QEMU := $(shell if which qemu > /dev/null 2>&1; \
+			then echo qemu; exit; \
+			elif which qemu-system-x86_64 > /dev/null 2>&1; \
+			then echo qemu-system-x86_64; exit; \
+			else echo "---" 1>&2; \
+			echo "Cannot find QEMU" 1>&2; \
+			echo "Please specify QEMU in env.mk" 1>&2; \
+			echo "---" 1>&2; \
+			exit 1; \
+		fi)
+AS := $(GCCPREFIX)as
+LD := $(GCCPREFIX)ld
+
+LDFLAGS := -m elf_x86_64
+
+all: qemu
 
 os.img: os.o
-	ld --oformat binary -o $@ $<
+	$(LD) $(LDFLAGS) --oformat binary -o $@ $<
 
 os.o: boot.S
-	as -o $@ $<
+	$(AS) -o $@ $<
+
+qemu: os.img
+	$(QEMU) $< --nographic
+
+qemu-x: os.img
+	$(QEMU) $<
 
 clean:
 	rm os.img os.o
