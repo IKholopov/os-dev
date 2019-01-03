@@ -10,11 +10,13 @@ _start:
 	int $0x10
 	mov $' , %al
 	int $0x10
-	mov $'n, %al
+	mov $'b, %al
 	int $0x10
-	mov $'e, %al
+	mov $'o, %al
 	int $0x10
-	mov $'w, %al
+	mov $'o, %al
+	int $0x10
+	mov $'t, %al
 	int $0x10
 	mov $' , %al
 	int $0x10
@@ -23,6 +25,10 @@ _start:
 	mov $'S, %al
 	int $0x10
 	mov $'!, %al
+	int $0x10
+	mov $'\r, %al
+	int $0x10
+	mov $'\n, %al
 	int $0x10
 	
 	jmp .
