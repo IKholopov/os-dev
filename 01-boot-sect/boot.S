@@ -6,6 +6,22 @@ _start:
 	int $0x10
 	mov $'i, %al
 	int $0x10
+	mov $',, %al
+	int $0x10
+	mov $' , %al
+	int $0x10
+	mov $'n, %al
+	int $0x10
+	mov $'e, %al
+	int $0x10
+	mov $'w, %al
+	int $0x10
+	mov $' , %al
+	int $0x10
+	mov $'O, %al
+	int $0x10
+	mov $'S, %al
+	int $0x10
 	mov $'!, %al
 	int $0x10
 	
