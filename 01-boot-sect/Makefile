@@ -27,15 +27,15 @@ QEMU := $(shell if which qemu > /dev/null 2>&1; \
 AS := $(GCCPREFIX)as
 LD := $(GCCPREFIX)ld
 
-LDFLAGS := -m elf_x86_64
+LDFLAGS := -m elf_i386 --oformat binary -Ttext 0x0
 
 all: qemu
 
 os.img: os.o
-	$(LD) $(LDFLAGS) --oformat binary -o $@ $<
+	$(LD) $(LDFLAGS) -o $@ $<
 
 os.o: boot.S
-	$(AS) -o $@ $<
+	$(AS) --32 -o $@ $<
 
 qemu: os.img
 	$(QEMU) $< --nographic
