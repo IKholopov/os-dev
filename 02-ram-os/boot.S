@@ -2,8 +2,10 @@
 .globl _boot_start	
 .text
 _boot_start:
-	mov $0x0e, %ah
-	movw $ram_msg, %bx
+	movb $0x0e, %ah 	# Set up tty
+	movw $0x8000, %bp	# Set up stack
+	movw %bp, %sp		
+	movw $ram_msg, %bx	# Print welcoming message
 	call bprintf
 	movw $hello_message, %bx
 	call bprintf
