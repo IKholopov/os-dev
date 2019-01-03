@@ -36,10 +36,13 @@ LDFLAGS := -m elf_i386 --oformat binary
 
 all: qemu
 
-os.img: os.o image.ld
-	$(LD) $(LDFLAGS) -T image.ld -o $@ $<
+OS_OBJ := os.o main.o
+os.img: $(OS_OBJ) image.ld
+	$(LD) $(LDFLAGS) -T image.ld -o $@ $(OS_OBJ)
 
-os.o: boot.S
+os.o: boot.S bprintf.S
+	$(AS) --32 -n -o $@ $<
+main.o: main.S
 	$(AS) --32 -n -o $@ $<
 
 qemu: os.img
