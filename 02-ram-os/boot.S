@@ -1,10 +1,9 @@
 .code16
-.globl _start	
-boot_start:
+.globl _boot_start	
 .text
-_start:
+_boot_start:
 	mov $0x0e, %ah
-	movw $hello_message, %bx
+	movw $ram_msg, %bx
 	call bprintf
 	movw $hello_message, %bx
 	call bprintf
@@ -21,8 +20,8 @@ bprintf:
 bprintf_ret:
 	ret
 
+.data
 hello_message:
 	.ascii "Hello, RAM OS!\r\n\0"
-	
-.space 510-(.-boot_start)
-.word 0xaa55	
+ram_msg:
+	.ascii "RAM OS v1.0\r\n\0"
