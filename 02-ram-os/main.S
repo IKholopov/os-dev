@@ -1,15 +1,23 @@
 .code16
 .globl _main
 .text	
-_main:	
-	movw $hello_message, %bx
+_main:
+	pushw %bp
+	mov %sp, %bp
+	
+	movw $message, %bx
 	call bprintf
-	pushw $0x9BC0
-	pushw $0x03AF
-	movw $test_format, %bx
+	
+	pushw $0xFD90
+	pushw $0xAB7
+	movw $message_fmt, %bx
 	call bprintf
+
+	mov %bp, %sp
+	pop %bp
+	ret
 .data
-hello_message:
+message:
 	.ascii "Hello, RAM OS!\r\n\0"
-test_format:
-	.ascii "test %h and other is %h value\r\n\0"
+message_fmt:
+	.ascii "First value is %h and second is %h. That is it?\r\n\0"

@@ -6,7 +6,9 @@ bprintc:
 	ret
 	
 bprintf:
-	movw $-2, %si
+	pushw %bp
+	movw %sp, %bp
+	movw $4, %si
 bprintf_next_char:	
 	movb (%bx), %al
 	cmpb $0, %al
@@ -42,18 +44,15 @@ bprintf_hex:
 	pushw %cx
 	movw %sp, %bx
 	call bprintf
-	subw $2, %si
-	popw %dx
-	popw %dx
-	popw %dx
-	popw %dx
-
+	addw $2, %si
+	addw $8, %sp
 	popw %bx
 	jmp bprintf_continue
 bprintf_continue:
 	incw %bx
 	jmp bprintf_next_char
 bprintf_ret:
+	popw %bp
 	ret
 bprintf_get_value_and_shift:
 	movw %bx, %ax
