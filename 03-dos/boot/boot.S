@@ -6,7 +6,12 @@ _boot_start:
 	movw %bp, %sp		
 	movw $ram_msg, %bx	# Print welcoming message
 	call bprintf
-	# call _main
+	movb $0x02, %ch
+	movb $0x04, %dh
+	movw $0x9000, %bx
+	call bdiskload
+	movw $0x9000, %ax
+	call %ax
 	movw $finished_msg, %bx
 	call bprintf
 	jmp .

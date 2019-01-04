@@ -7,11 +7,33 @@ _main:
 	
 	movw $message, %bx
 	call bprintf
-	
-	pushw $0xFD90
-	pushw $0xAB7
+
+	movb $0x03, %ch
+	movb $0x01, %dh
+	movw $0x9800, %bx
+	call bdiskload
+
+	movw $0x9800, %si
+	pushw (%si)
+	movw $0x9802, %si
+	pushw (%si)
 	movw $message_fmt, %bx
 	call bprintf
+
+	popw %ax
+	addw $0x01, %ax
+	movw $0x9802, %si
+	movw %ax, (%si)
+	popw %ax
+	addw $0x05, %ax
+	shlw %ax
+	movw $0x9800, %si
+	movw %ax, (%si)
+
+	movb $0x03, %ch
+	movb $0x01, %dh
+	movw $0x9800, %bx
+	call bdiskstore
 
 	mov %bp, %sp
 	pop %bp
@@ -20,4 +42,4 @@ _main:
 message:
 	.ascii "Hello, RAM OS!\r\n\0"
 message_fmt:
-	.ascii "First value is %h and second is %h. That is it?\r\n\0"
+	.ascii "You ran me %h times. Current secret is %h?\r\n\0"

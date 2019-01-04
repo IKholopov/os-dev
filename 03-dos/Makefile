@@ -45,6 +45,7 @@ LDFLAGS := -m elf_i386 --oformat binary
 all: qemu
 
 -include boot/Makefrag.mk
+-include lib/Makefrag.mk
 -include user/Makefrag.mk
 
 IMAGE := $(IMGDIR)/os.img
