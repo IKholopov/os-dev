@@ -11,7 +11,6 @@ _boot_start:
 	call bprintf
 	jmp .
 	
-.include "boot/bprintf.S"
 .data
 ram_msg:
 	.ascii "RAM OS v1.0\r\n\0"

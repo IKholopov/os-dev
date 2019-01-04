@@ -1,4 +1,6 @@
+.code16
 .globl bprintf
+.text	
 bprintc:
 	movb $0x0e, %ah
 	movb (%bx), %al

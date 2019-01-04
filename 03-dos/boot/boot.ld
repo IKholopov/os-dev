@@ -8,7 +8,8 @@ SECTIONS
 	. = BOOT_MNT;
 	.text :
 	{
-	      *(.text);
+	      obj/boot.o(.text);
+	      obj/blib.o(.text);
 	      . = BOOT_DATA_OFFSET;
 	}
 	.data :

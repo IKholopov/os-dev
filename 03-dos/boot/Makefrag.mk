@@ -1,10 +1,13 @@
 BOOTDIR = ./boot
-$(OBJDIR)/boot.o: $(BOOTDIR)/boot.S $(BOOTDIR)/bprintf.S
+
+$(OBJDIR)/blib.o: $(BOOTDIR)/bprintf.S
+	$(AS) --32 -n -o $@ $<
+$(OBJDIR)/boot.o: $(BOOTDIR)/boot.S
 	$(AS) --32 -n -o $@ $<
 
-$(OBJDIR)/libos.a: $(OBJDIR)/boot.o
+$(OBJDIR)/libos.a: $(OBJDIR)/blib.o
 	$(AR) r -o $@ $^
 
-BOOT_OBJ := $(OBJDIR)/boot.o
+BOOT_OBJ := $(OBJDIR)/boot.o $(OBJDIR)/blib.o
 $(IMGDIR)/boot.img: $(BOOT_OBJ) $(BOOTDIR)/boot.ld
 	$(LD) $(LDFLAGS) -T $(BOOTDIR)/boot.ld -o $@ $(BOOT_OBJ)
